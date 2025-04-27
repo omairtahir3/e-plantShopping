@@ -30,17 +30,17 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleIncrement = (item) => {
-    dispatch(updateQuantity({ itemId: item.id, quantity: item.quantity + 1 }));
+    dispatch(updateQuantity({ itemId: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
-      dispatch(updateQuantity({ itemId: item.id, quantity: item.quantity - 1 }));
+      dispatch(updateQuantity({ itemId: item.name, quantity: item.quantity - 1 }));
     }
   };
 
   const handleRemove = (item) => {
-    dispatch(removeItem(item.id));
+    dispatch(removeItem(item.name));
   };
 
   return (
