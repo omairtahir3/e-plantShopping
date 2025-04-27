@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProductList.css'
-import {CartItem, addItem} from './CartItem';
+import CartItem from './CartItem';
+import AddItem from './CartSlice';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
@@ -259,7 +260,7 @@ function ProductList({ onHomeClick }) {
            ...prevState,
            [product.name]: true,
          }));
-      };
+    };
     return (
         <div>
             <div className="navbar" style={styleObj}>
