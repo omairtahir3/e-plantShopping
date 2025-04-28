@@ -22,8 +22,7 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleContinueShopping = () => {
-    // Handle continue shopping logic (e.g., navigate back to the product page)
-    window.location.href = '/';  // Redirect to the homepage or product listing
+    window.location.href = '/';  
   };
 
   const handleIncrement = (item) => {
