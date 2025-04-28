@@ -5,7 +5,7 @@ import addItem from './CartSlice';
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const cartCount = useSelector((state) => state.cart.items.length);
+
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -242,7 +242,6 @@ function ProductList({ onHomeClick }) {
     const handleCartClick = (e) => {
         e.preventDefault();
         setShowCart(true); // Set showCart to true when cart icon is clicked
-        {cartCount}
     };
     const handlePlantsClick = (e) => {
         e.preventDefault();
@@ -251,12 +250,16 @@ function ProductList({ onHomeClick }) {
     };
 
     const handleContinueShopping = (e) => {
-        console.log("clicked");
         e.preventDefault();
         setShowCart(false);
     };
+    const [addedToCart, setAddedToCart] = useState({});
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
+        setAddedToCart((prevState) => ({
+           ...prevState,
+           [product.name]: true,
+         }));
     };
     return (
         <div>
