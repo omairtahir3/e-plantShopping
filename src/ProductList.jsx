@@ -250,16 +250,12 @@ function ProductList({ onHomeClick }) {
     };
 
     const handleContinueShopping = (e) => {
+        console.log("clicked");
         e.preventDefault();
         setShowCart(false);
     };
-    const [addedToCart, setAddedToCart] = useState({});
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-           ...prevState,
-           [product.name]: true,
-         }));
     };
     return (
         <div>
