@@ -8,17 +8,15 @@ const CartItem = ({ onContinueShopping }) => {
   const dispatch = useDispatch();
 
   const calculateTotalAmount = () => {
-    let total = 0;
-    cart.forEach((item) => {
-      total += calculateTotalCost(item);
-    });
-    return total.toFixed(2);
+    return cart.reduce((total, item) => {
+      return total + calculateTotalCost(item);
+    }, 0).toFixed(2);
   };
 
   const calculateTotalCost = (item) => {
     const quantity = item.quantity;
-    const cost = parseFloat(item.cost.substring(1));  // Remove '$' symbol and convert to number
-    return (quantity * cost).toFixed(2);
+    const cost = parseFloat(item.cost.replace(/[^0-9.]/g, ''));
+    return quantity * cost;
   };
 
   const handleContinueShopping = () => {
