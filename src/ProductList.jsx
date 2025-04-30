@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from "react-redux";
+import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
-import addItem from './CartSlice';
-function ProductList({ onHomeClick }) {
-    const cartItems=useSelector(state => state.cart.items);
-    const cartCount = useSelector(state =>
-        state.cart.items.reduce((sum, item) => sum + item.quantity, 0)
-    );
-
-    const [showCart, setShowCart] = useState(false);
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from './CreateSlice';
+function ProductList(props) {
+    const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    const [cart, setCart] = useState([]); // State to store the items added to the cart
+    const dispatch = useDispatch();
+    const cartItems=useSelector(state => state.cart.items);
+    console.log(cartItems);
+    // setCart(cartItems);
+    useEffect(() => {
+        
+    }, []);
     const alreadyInCart = (itemName) => {
         return cartItems.some((item) => item.name === itemName);
+    }
+    const handleAddToCart = (item) => {
+        console.log("clicked");
+        dispatch(addItem(item));
+    }
+    const totalItems = () => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
     }
     const plantsArray = [
         {
@@ -108,7 +118,7 @@ function ProductList({ onHomeClick }) {
                 },
                 {
                     name: "Marigold",
-                    image: "https://cdn.pixabay.com/photo/2022/02/22/05/45/marigold-7028063_1280.jpg",
+                    image:"https://cdn.pixabay.com/photo/2022/02/22/05/45/marigold-7028063_1280.jpg",
                     description: "Natural insect repellent, also adds color to the garden.",
                     cost: "$8"
                 },
@@ -221,54 +231,41 @@ function ProductList({ onHomeClick }) {
             ]
         }
     ];
-    const styleObj = {
-        backgroundColor: '#4CAF50',
-        color: '#fff!important',
-        padding: '15px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignIems: 'center',
-        fontSize: '20px',
-    }
-    const styleObjUl = {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '1100px',
-    }
-    const styleA = {
-        color: 'white',
-        fontSize: '30px',
-        textDecoration: 'none',
-    }
+   const styleObj={
+    backgroundColor: '#615EFC',
+    color: '#fff!important',
+    padding: '15px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignIems: 'center',
+    fontSize: '20px',
+   }
+   const styleObjUl={
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '1100px',
+   }
+   const styleA={
+    color: 'white',
+    fontSize: '30px',
+    textDecoration: 'none',
+   }
+   const handleCartClick = (e) => {
+    e.preventDefault();
+    setShowCart(true); // Set showCart to true when cart icon is clicked
+};
+const handlePlantsClick = (e) => {
+    e.preventDefault();
+    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
+    setShowCart(false); // Hide the cart when navigating to About Us
+};
 
-    const handleHomeClick = (e) => {
-        e.preventDefault();
-        onHomeClick();
-    };
-
-    const handleCartClick = (e) => {
-        e.preventDefault();
-        setShowCart(true); // Set showCart to true when cart icon is clicked
-    };
-    const handlePlantsClick = (e) => {
-        e.preventDefault();
-        setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-        setShowCart(false); // Hide the cart when navigating to About Us
-    };
-
-    const handleContinueShopping = (e) => {
-        e.preventDefault();
-        setShowCart(false);
-    };
-    const [addedToCart, setAddedToCart] = useState({});
-    const handleAddToCart = (product) => {
-        dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-           ...prevState,
-           [product.name]: true,
-         }));
-    };
+   const handleContinueShopping = (e) => {
+    console.log("clicked");
+    e.preventDefault();
+    setShowCart(false);
+  };
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -301,7 +298,7 @@ function ProductList({ onHomeClick }) {
                     <h2>{plant.name}</h2>
                     <p>{plant.description}</p>
                     <p>{plant.cost}</p>
-                    <button style={{backgroundColor:alreadyInCart(plant.name)?"gray":"#615EFC"}} disabled={alreadyInCart(plant.name)? true:false} onClick={()=>handleAddToCart(plant)} className='product-button'>Add to Cart</button>
+                    <button style={{backgroundColor:alreadyInCart(plant.name)?"gray":"#615EFC"}} disabled={alreadyInCart(plant.name)? true:false} onClick={()=>handleAddToCart({name:plant.name,cost:plant.cost,image:plant.image})} className='product-button'>Add to Cart</button>
                 </div>)}
                  </div>
             </div>)}
